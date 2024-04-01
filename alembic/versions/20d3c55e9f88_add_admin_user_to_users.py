@@ -22,7 +22,7 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     hashed_password = auth.get_password_hash(dbSettings.db_password)
-    op.execute(f"INSERT INTO users (email, password, admin) VALUES ('{dbSettings.db_username}', '{hashed_password}', true);")
+    op.execute(f"INSERT INTO users (email, password, admin) VALUES ('{dbSettings.db_username}@gmail.com', '{hashed_password}', true);")
 
 def downgrade() -> None:
     op.execute(f"DELETE FROM users WHERE email = '{dbSettings.db_username}'")
