@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from ..schemas.user import UserCreate,UserResponse, User
-from ..database import get_db
+from ..core.database import get_db
 from sqlalchemy.orm import Session
 from typing import List
 from ..crud import user as userCRUD

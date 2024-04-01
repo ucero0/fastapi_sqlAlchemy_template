@@ -5,7 +5,7 @@ from ..schemas.oauth import TokenData, Token
 from ..utils import auth
 from fastapi import HTTPException, status, Depends
 from typing import Annotated
-from ..database import get_db
+from ..core.database import get_db
 from ..schemas.oauth import  oauth2_scheme
 from ..utils import auth
 

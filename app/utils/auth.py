@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, UTC
 from jose import JWTError, jwt
 from ..schemas.oauth import TokenData
 from pydantic import ValidationError
-from ..config import apiSettings
+from ..core.config import apiSettings
 
 SECRET_KEY = apiSettings.secret_key
 ALGORITHM = apiSettings.algorithm

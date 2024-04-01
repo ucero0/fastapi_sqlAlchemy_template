@@ -1,13 +1,13 @@
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from ..app.config import dbSettings
+from ..app.core.config import dbSettings
 from fastapi.testclient import TestClient
 from ..app.main import app
-from ..app.database import get_db
+from ..app.core.database import get_db
 from ..app.models.user import User
 from ..app.models.base import Base
-from ..app.database import DATABASE_URL
+from ..app.core.database import DATABASE_URL
 
 engine = create_engine( DATABASE_URL )
 TestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

@@ -9,7 +9,7 @@ from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
-from app.config import dbSettings
+from app.core.config import dbSettings
 from app.utils import auth
 
 

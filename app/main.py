@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from .routes.user import userRoute
 from .routes.auth import authRouter
-from .config import dbSettings
+from .core.config import dbSettings
 
 app = FastAPI()
 @app.get("/")
