@@ -37,12 +37,14 @@ async def read_user(username: str,db:Session = Depends(get_db)):
 @userRoute.delete("/{username}",response_model=UserResponse, status_code=200)
 async def delete_user(username: str,db : Annotated[Session, Depends(get_db)],current_user: Annotated[User, Depends(userCRUD.get_current_active_user)]):
     if current_user.admin or current_user.email == username:
-        user = userCRUD.delete_user(db, user)
+        if current_user.email != username:
+            user = userCRUD.read_user_by_email(db, username)
+            if user is None:
+                raise HTTPException(status_code=404, detail="User not found")
+        user = userCRUD.delete_user(db, current_user)
         return user
     else:
         raise HTTPException(status_code=401, detail="Unauthorized")
-
-    
 
 
     
