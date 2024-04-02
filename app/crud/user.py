@@ -30,20 +30,20 @@ def read_users(db:Session)->list[modelUser.User]:
 def delete_user(db:Session, user: modelUser.User)->modelUser.User:
     db.delete(user)
     db.commit()
-    db.refresh(user)
     return user
 
-async def get_current_user(token: Annotated[Token, Depends(oauth2_scheme)], db: Annotated[Session,Depends(get_db)] ) -> modelUser.User:
+def get_current_user(token: Annotated[Token, Depends(oauth2_scheme)], db: Annotated[Session,Depends(get_db)] ) -> modelUser.User:
     payload = auth.verify_access_token(token)
-    if not payload or not (userDb := read_user_by_email(db, payload.email)):
+    if payload is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid authentication credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    userDb = read_user_by_email(db, payload.email)
     return userDb
 
-async def get_current_active_user(
+def get_current_active_user(
     current_user: Annotated[modelUser.User, Depends(get_current_user)]
 ):
     if current_user.disabled:
