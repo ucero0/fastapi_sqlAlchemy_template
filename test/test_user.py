@@ -16,7 +16,8 @@ def createUser(client):
 @pytest.fixture
 def getToken(client):
     response = client.post("/token",data=aouthSchema,)
-    return response.json()
+    token = response.json()
+    return {"Authorization": f"Bearer {token['access_token']}"}
 
 def test_connection_db(session):
     assert session is not None
@@ -49,12 +50,12 @@ def test_get_users(client, createUser):
     assert len(data) > 0
 
 def test_get_myUser(client,createUser,getToken):
-    response = client.get(f"{userRoute.prefix}/me", headers={"Authorization": f"Bearer {getToken['access_token']}"})
+    response = client.get(f"{userRoute.prefix}/me", headers=getToken)
     assert response.status_code == 200
     data = response.json()
     assert data["email"] == user_credentials["email"]
 
 def test_delete_OwnUser(client,createUser,getToken):
     print(createUser)
-    response = client.delete(f"{userRoute.prefix}/{createUser['email']}",headers={"Authorization": f"Bearer {getToken['access_token']}"}) 
+    response = client.delete(f"{userRoute.prefix}/{createUser['email']}",headers=getToken) 
     assert response.status_code == 200
